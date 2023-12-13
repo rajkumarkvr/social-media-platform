@@ -1,0 +1,19 @@
+{
+  "name": "social-media",
+  "version": "1.0.0",
+  "description": "Social media platform ,anyone can communicate with each other over the internet.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rajkumarkvr/social-media-platform.git"
+  },
+  "author": "Rajkumar M",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rajkumarkvr/social-media-platform/issues"
+  },
+  "homepage": "https://github.com/rajkumarkvr/social-media-platform#readme"
+}
