@@ -1,5 +1,4 @@
 const mongoose =require("mongoose");
-const getDefaultProfile=require("../services/imageService")
 const userSchema = new mongoose.Schema({
     name:{
         type:String,
@@ -25,10 +24,12 @@ const userSchema = new mongoose.Schema({
     },
     userProfile:{
         type:String,
-        default:getDefaultProfile()
+        default:"/images/userprofile.png"
     }
+    ,
+    likes:[{type:mongoose.Schema.Types.ObjectId,ref:"Posts"}]
 },{
-    timestamps:true,
+    timestamps:true,versionKey:false
 });
 
 module.exports=mongoose.model("Users",userSchema);

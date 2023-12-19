@@ -1,0 +1,39 @@
+.p-primary{
+    color: #ffffff;
+}
+
+.p-secondary{
+    color: #000;
+}
+
+.p-success{
+    color: #2ecc71;
+}
+.p-danger{
+    color: #e74c3c;
+}
+.p-info{
+    color: #2980b9;
+}
+
+
+.p.w-300{
+    font-weight: 300;
+}
+.p.w-400{
+    font-weight: 400;
+}
+.p.w-500{
+    font-weight: 500;
+}
+
+.p.w-600{
+    font-weight: 600;
+}
+
+.p.w-800{
+    font-weight: 800;
+}
+.p.w-900{
+    font-weight: 900;
+}

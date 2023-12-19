@@ -1,0 +1,153 @@
+.flex-container {
+  display: flex;
+  background-color: #fff;
+  padding: 15px;
+  overflow: auto;
+}
+
+/* border peroperties */
+.flex-container.br-5{
+    border-radius: 5px;
+}
+.flex-container.br-8{
+    border-radius: 8px;
+}
+.flex-container.br-10{
+    border-radius: 10px;
+}
+.flex-container.br-15{
+    border-radius: 15px;
+}
+.flex-container.br-25{
+    border-radius: 25px;
+}
+.flex-container.br-50{
+    border-radius: 50%;
+}
+.flex-container.rounded{
+    border-radius: 10px;
+}
+.flex-container.shadow{
+    box-shadow: 10px 10px 15px rgba(0,0,0,0.3),-10px -10px 15px rgba(0,0,0,0.3);
+}
+.flex-container.primary {
+  background-color: #3498db;
+}
+.flex-container.success {
+  background-color: #2ecc71;
+}
+.flex-container.secondary {
+  background-color: #34495e;
+}
+.flex-container.white {
+  background-color: #ffffff;
+}
+.flex-container.black {
+  background-color: #000;
+}
+.flex-container.h-800 {
+  height: 800px;
+}
+.flex-container.h-500 {
+  height: 500px;
+}
+.flex-container.h-300 {
+  height: 300px;
+}
+
+.flex-container.w-50 {
+  width: 50%;
+}
+.flex-container.w-100 {
+  width: 100%;
+}
+.flex-container.vw-50 {
+  max-width: 50vw;
+}
+.flex-container.vw-100 {
+  max-width: 100vw;
+}
+.flex-container.vh-50 {
+  max-height: 50vh;
+}
+
+
+.flex-container.min-vw-100 {
+  min-width: 100vw;
+}
+.flex-container.min-vh-50 {
+  min-height: 50vh;
+}
+
+.flex-container.min-vw-50 {
+  min-width: 50vw;
+}
+.flex-container.min-vh-100 {
+  min-height: 100vh;
+}
+
+.flex-container.vh-100 {
+  max-height: 100vh;
+}
+
+.flex-container.center {
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-container.v-center {
+  align-items: center;
+}
+.flex-container.h-center {
+  justify-content: center;
+}
+
+.flex-container.wrap {
+  flex-wrap: wrap;
+}
+.flex-container.nowrap {
+  flex-wrap: nowrap !important;
+}
+
+.flex-container.column {
+  flex-direction: column;
+}
+.flex-container.row {
+  flex-direction: row;
+}
+
+.flex-container.start {
+  align-items: start !important ;
+  justify-content: start !important;
+}
+.flex-container.flex {
+  flex: 1 !important;
+}
+
+.self-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.flex-container.gap-10{
+    gap: 10px;
+}
+.flex-container.r-gap-10{
+    row-gap: 10px;
+}
+.flex-container.c-gap-10{
+    column-gap: 10px;
+}
+
+.flex-container.gap-20{
+  column-gap: 20px;
+}
+
+.flex-container.r-gap-20{
+  row-gap: 20px;
+}
+.flex-container.c-gap-20{
+  column-gap: 20px;
+}

@@ -1,0 +1,172 @@
+.feed-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  row-gap: 20px;
+  margin-bottom: 10px;
+  position: relative;
+}
+.feed-container {
+  overflow: auto;
+  position: relative;
+  width: 50vw;
+  min-height: 300px;
+  background-color: #4f6275;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 25px;
+  padding: 10px;
+  color: white;
+  align-items: flex-end;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2), -3px -3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.feed-profile-header {
+  display: flex;
+  padding: 5px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.feed-profile-header .feed-username {
+  flex: 1;
+  color: #bdc3c7;
+}
+
+.feed-posted-time {
+  color: #bdc3c7;
+}
+.vertical-icon {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.feed-body-content {
+  width: 100%;
+  padding-left: 25px;
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+  text-align: justify;
+  margin-right: 10px;
+  text-indent: 50px;
+  line-height: 2;
+}
+
+.feed-fooder {
+  left: 0;
+  right: 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+  margin-bottom: 10px;
+}
+
+.feed-fooder-icons {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.fooder-items {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  text-align: center;  
+  font-size: 18px;
+}
+
+.post-save-btn svg {
+  font-size: 18px;
+  margin-right: 2rem;
+}
+
+.user-nickname {
+  text-decoration: none;
+  color: #f1c40f;
+}
+
+.user-nickname:hover {
+  color: #6bbef6;
+}
+
+.feed-drop-down {
+  top: 3.5rem;
+  right: 1.1rem;
+  position: absolute;
+  background-color: #ecf0f1;
+  padding: 10px;
+  user-select: none;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2), -2px -2px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeIn .3s linear;
+}
+@keyframes fadeIn {
+    0%{
+      opacity: 0;
+    }
+    100%{
+        opacity: 10;
+    }
+}
+.feed-drop-down ul {
+  list-style-type: none;
+}
+
+.feed-drop-down ul svg,
+.feed-drop-down ul label {
+  pointer-events: none;
+}
+.feed-drop-down ul li {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px;
+  border-radius: 8px;
+
+}
+.feed-drop-down ul li:hover{
+
+  transition:0.2s;
+  background-color: #bcdcf2;
+}
+
+
+
+.delete-post {
+  color: red;
+}
+.copy-post {
+
+  color: #3498db;
+}
+
+.fooder-items {
+  cursor: pointer;
+
+}
+.fooder-items:hover svg{
+  transition: opacity 0.2s linear;
+  opacity: 0.5;
+
+}
+.color-like {
+  transition: color 0.2s linear;
+  color:#EA2027;
+}
+.uncolor-like {
+  color: #ecf0f1;
+}
+
+.copied-alert{
+  z-index: 999999;
+  max-width: 400px;
+  position: fixed;
+  top:1.5rem;
+}

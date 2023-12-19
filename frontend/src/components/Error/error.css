@@ -1,0 +1,9 @@
+.error-info{
+    width: 700px;
+    margin: 10px;
+    color: #e74c3c;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+
+}

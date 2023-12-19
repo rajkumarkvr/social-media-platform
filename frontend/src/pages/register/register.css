@@ -1,0 +1,25 @@
+.form-controls{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap:5px;
+    margin-bottom: 3px;
+}
+.reg-btn{
+    place-self: center;
+}
+.err{
+    width:100% !important;
+}
+.asterisk::after{
+    padding-left:5px;
+    content:"*";
+    color: rgb(235, 96, 96);
+}
+.reg-head{
+    margin-top: 50px;
+    text-align: center;
+    line-break: auto;
+    overflow-wrap: break-word;
+   
+}

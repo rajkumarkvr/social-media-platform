@@ -1,20 +1,30 @@
 const express = require("express");
-const dotenv = require("dotenv").config();
+require("dotenv").config();
 const cors = require("cors")
 const mongoose = require("mongoose");
 
 //Local Routes imports
+const path = require("path");
 const registerRoute = require("./routes/register.route.js");
 const loginRoute=require("./routes/login.route.js");
 const dataRoute=require("./routes/data.route.js")
+const postRoute=require("./routes/post.route.js");
 const app = express();
 app.use(express.json())
+const STATIC=path.join(path.dirname(__dirname),"frontend","dist");
+app.use(express.static(STATIC))
+//Handle Cross origin requests
+app.use(cors({
+    origin:"*",
+    allowedHeaders:['Content-Type','Authorization'],
+    methods:"POST,GET"
+}));
+
 //Routes configs
 app.use("",registerRoute);
 app.use("",loginRoute);
 app.use("/api",dataRoute);
-//Handle Cross origin requests
-app.use(cors());
+app.use("/post",postRoute);
 
 
 //Server & database config

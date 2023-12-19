@@ -1,35 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
-function App() {
-  const [count, setCount] = useState(0)
-
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/home/Home";
+import Register from "./pages/register/Register";
+import Login from "./pages/Login/Login";
+import RequiredAuth from "./components/RequiredAuth/RequiredAuth";
+import Settings from "./pages/Settings/Settings";
+import CreatePost from "./pages/Post/CreatePost";
+import Feeds from "./pages/Feeds/Feeds";
+const App = () => {
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      <Routes>
+        <Route exact path="/"element={<RequiredAuth><Home /></RequiredAuth>
+          }
+        >
+          <Route index path="/" element={<Feeds />}></Route>
+          <Route path="chat" element={<h1>Chat</h1>}></Route>
+          <Route path="post" element={<CreatePost />}></Route>
+          <Route path="profile" element={<h1>Profile</h1>}></Route>
+          <Route path="notification" element={<h1>Notification</h1>}></Route>
+          <Route path="settings" element={<Settings />}></Route>
+        </Route>
 
-export default App
+        <Route
+          path="/register"
+          element={
+            <RequiredAuth>
+              <Register />
+            </RequiredAuth>
+          }
+        ></Route>
+        <Route
+          path="/login"
+          element={
+            <RequiredAuth>
+              <Login />
+            </RequiredAuth>
+          }
+        ></Route>
+      </Routes>
+    </>
+  );
+};
+
+export default App;
