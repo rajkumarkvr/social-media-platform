@@ -17,7 +17,7 @@ app.use(express.static(STATIC))
 app.use(cors({
     origin:"*",
     allowedHeaders:['Content-Type','Authorization'],
-    methods:"POST,GET"
+    methods:"POST,GET,DELETE,PUT"
 }));
 
 //Routes configs

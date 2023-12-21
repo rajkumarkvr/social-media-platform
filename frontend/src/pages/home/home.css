@@ -68,6 +68,7 @@
 .body {
   color: #000;
   margin-left: 220px;
+
 }
 
 .app-lists {
@@ -86,7 +87,7 @@
   display: flex;
   gap: 15px;
   align-items: center;
-  transition: background-color 0.3s linear;
+  transition: background-color 0.3s linear; 
 }
 .component:hover {
   background-color: #74b9ff;

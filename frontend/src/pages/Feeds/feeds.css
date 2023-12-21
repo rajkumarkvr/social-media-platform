@@ -42,8 +42,15 @@
 .vertical-icon {
   padding: 5px;
   cursor: pointer;
+  border-radius: 50%;
+  width: 10px;
 }
-
+.vertical-icon:hover {
+  transition: opacity, background-color 0.3s;
+  color: black;
+  opacity: 0.5;
+  background-color: #dff2ff;
+}
 .feed-body-content {
   width: 100%;
   padding-left: 25px;
@@ -77,7 +84,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 5px;
-  text-align: center;  
+  text-align: center;
   font-size: 18px;
 }
 
@@ -104,15 +111,15 @@
   user-select: none;
   border-radius: 8px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2), -2px -2px 8px rgba(0, 0, 0, 0.2);
-  animation: fadeIn .3s linear;
+  animation: fadeIn 0.3s linear;
 }
 @keyframes fadeIn {
-    0%{
-      opacity: 0;
-    }
-    100%{
-        opacity: 10;
-    }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 10;
+  }
 }
 .feed-drop-down ul {
   list-style-type: none;
@@ -129,44 +136,69 @@
   gap: 10px;
   padding: 5px;
   border-radius: 8px;
-
 }
-.feed-drop-down ul li:hover{
-
-  transition:0.2s;
+.feed-drop-down ul li:hover {
+  transition: 0.2s;
   background-color: #bcdcf2;
 }
-
-
 
 .delete-post {
   color: red;
 }
 .copy-post {
-
   color: #3498db;
 }
 
 .fooder-items {
   cursor: pointer;
-
 }
-.fooder-items:hover svg{
+.fooder-items:hover svg {
   transition: opacity 0.2s linear;
   opacity: 0.5;
-
 }
 .color-like {
   transition: color 0.2s linear;
-  color:#EA2027;
+  color: #ea2027;
 }
 .uncolor-like {
   color: #ecf0f1;
 }
 
-.copied-alert{
+.copied-alert {
   z-index: 999999;
   max-width: 400px;
   position: fixed;
-  top:1.5rem;
+  top: 1.5rem;
+}
+
+.err-alert {
+  z-index: 999999;
+  max-width: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.err-alert-btn {
+  transform: translate(-50%, -50%);
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  margin-top: 40px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: #4f6275;
+  color: #fff;
+  font-size: 18px;
+  box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
+  outline: 1px solid black;
+}
+.err-alert-btn:hover {
+  opacity: 0.6;
 }
