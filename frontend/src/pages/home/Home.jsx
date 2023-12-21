@@ -1,6 +1,6 @@
 import React from "react";
 import { useProfile } from "../../hooks/UserContext";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouse,
@@ -37,30 +37,34 @@ const Home = () => {
       </div>
       <div className="side-bar">
         <div className="app-lists" key={uuidv4()}>
-          <div className="component">
+          <NavLink className="component" to="/">
             <Icon icon={faHouse} />
-            <NavLink to="/">Home</NavLink>
-          </div>
-          <div className="component">
+            <p>Home</p>
+          </NavLink>
+
+          <NavLink className="component" to="/chat">
             <Icon icon={faMessage} />
-            <NavLink to="/chat">Chat</NavLink>
-          </div>
-          <div className="component">
+            <p>Chat</p>
+          </NavLink>
+          <NavLink className="component" to="/post">
             <Icon icon={faUpload} />
-            <NavLink to="/post">Post</NavLink>
-          </div>
-          <div className="component">
+            <p>Post</p>
+          </NavLink>
+
+          <NavLink className="component" to="/profile">
             <Icon icon={faUser} />
-            <NavLink to="/profile">Profile</NavLink>
-          </div>
-          <div className="component">
+            <p>Profile</p>
+          </NavLink>
+
+          <NavLink className="component" to="/notification">
             <Icon icon={faBell} />
-            <NavLink to="/notification">Notification</NavLink>
-          </div>
-          <div className="component">
+            <p>Notification</p>
+          </NavLink>
+
+          <NavLink className="component" to="/settings">
             <Icon icon={faGear} />
-            <NavLink to="/settings">Settings</NavLink>
-          </div>
+            <p>Settings</p>
+          </NavLink>
         </div>
       </div>
 
