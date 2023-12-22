@@ -94,6 +94,9 @@ router.put("/like", async (req, res) => {
     res.sendStatus(500);
   }
 });
-
+//Store post comment 
+router.post("/comment",(req,res)=>{
+  res.send("Success")
+});
 
 module.exports = router;

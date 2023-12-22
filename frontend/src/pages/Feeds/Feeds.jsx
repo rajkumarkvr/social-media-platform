@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import "./feeds.css";
-import { handleLike } from "./postOperations";
+import { handleLike, handleComment,handlePostComment } from "./postOperations";
 import {
   faHeart,
   faComment,
@@ -11,6 +11,8 @@ import {
   faTrash,
   faCopy,
   faWarning,
+  faPaperPlane
+
 } from "@fortawesome/free-solid-svg-icons";
 import axiosInstance from "../../axiosInstance";
 import Icon from "../../components/Icon/Icon";
@@ -19,9 +21,12 @@ import { useProfile } from "../../hooks/UserContext";
 import Alert from "../../components/Alert/Alert";
 import Profile from "../Profile/Profile";
 import Spinner from "../../components/Spinner/Spinner";
+import UserPicture from "../../components/UserPicture/UserPicture";
+import Button from "../../components/Button/Button";
 const Feeds = ({ userId }) => {
   const [posts, setPosts] = useState([]);
   const [dropdownState, setDropdownState] = useState({});
+  const [commentState,setCommentState] = useState({});
   const { currentUser } = useProfile();
   const [err, setError] = useState(false);
   const [errMsg, setErrMsg] = useState("");
@@ -30,6 +35,9 @@ const Feeds = ({ userId }) => {
   const [postDeleted, setPostDeleted] = useState(true);
   const [isCopied, setIsCopied] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [comment,setComment]=useState();
+
+
   const { id } = useParams();
   const dropRef = useRef();
 
@@ -138,9 +146,9 @@ const Feeds = ({ userId }) => {
     const isLike = post.likes.includes(currentUser.id);
     return isLike;
   };
-  if(loading){
-    return <Spinner />
-  }
+  // if(loading){
+  //   return <Spinner />
+  // }
 
   if (id) {
     return (
@@ -202,8 +210,7 @@ const Feeds = ({ userId }) => {
                           <div>{post.likeCount}</div>
                         </div>
                         <div className="fooder-items">
-                          <Icon icon={faComment} />
-
+                          <Icon onClick={()=>{handleComment(post._id,setCommentState)}} icon={faComment} />
                           <div>20</div>
                         </div>
                         <div className="fooder-items">
@@ -252,6 +259,20 @@ const Feeds = ({ userId }) => {
                       </div>
                     )}
                   </div>
+                  {commentState[post._id]&&( <div className="comment-section-container">
+                    <div className="comment-header">
+                            <div className="comment-user-profile">
+                              <UserPicture />
+                            </div>
+                            <div className="comment-input"><input onChange={(e)=>setComment(e.target.value)} placeholder="Comment here..." className="comment-input" type="text" /></div>
+                            <div className="comment-btn"><Icon visibility={false} icon={faPaperPlane} onClick={()=>{handlePostComment(post._id,comment,currentUser.id)}} /></div>
+                    </div>
+                    <div className="comment-body">
+                      <div>Super</div>
+                      <div>Super</div>
+                    </div>
+                  </div>)}
+                 
                 </>
               );
             })}

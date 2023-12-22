@@ -10,3 +10,12 @@ export const handleLike = async (postId, currentUserId,setLiked) => {
     // return response.data.likeCount;
   } catch (error) {}
 };
+//To show comment section
+export const handleComment=(postId,setCommentState)=>{
+  console.log(postId)
+  setCommentState((prevComment)=>({...prevComment,[postId]:!prevComment[postId]}))
+}
+//To post user comment
+export const handlePostComment=(postId,comment,userid)=>{
+  console.log(postId,comment,userid)
+};

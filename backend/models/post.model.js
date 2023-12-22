@@ -3,7 +3,9 @@ const postSchema = new mongoose.Schema({
     content:{type:String,trim:true},
     postedBy:{type:mongoose.Schema.Types.ObjectId,ref:"Users"},
     pinned:Boolean,
-    likes:[{type:mongoose.Schema.Types.ObjectId,ref:"Users"}]
+    likes:[{type:mongoose.Schema.Types.ObjectId,ref:"Users"}],
+    comment:String,
+    commentedBy:[{type:mongoose.Schema.Types.ObjectId,ref:"Users"}]
 },{
     timestamps:true,versionKey:false
 })
