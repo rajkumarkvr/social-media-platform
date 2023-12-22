@@ -25,11 +25,12 @@ const Home = () => {
           <NavLink to="/">Social Media Platform</NavLink>
         </p>
         <div className="profile-info">
-          <img
+          <Link to="/profile"><img
             className="user-profile"
             src={currentUser.profilePic}
             alt="User Profile"
-          />
+          /></Link>
+          
           <NavLink to="/profile" className="home-username">
             {currentUser?.username}
           </NavLink>

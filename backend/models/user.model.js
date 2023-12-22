@@ -27,7 +27,8 @@ const userSchema = new mongoose.Schema({
         default:"/images/userprofile.png"
     }
     ,
-    likes:[{type:mongoose.Schema.Types.ObjectId,ref:"Posts"}]
+    likes:[{type:mongoose.Schema.Types.ObjectId,ref:"Posts"}],
+    posts:[{type:mongoose.Schema.Types.ObjectId,ref:"Posts"}]
 },{
     timestamps:true,versionKey:false
 });

@@ -3,7 +3,7 @@
   min-height: 100vh;
   color: #fff;
   position: relative;
-  margin-top: 100px;
+  padding-top: 100px;
 }
 .navbar {
   overflow: hidden;
@@ -47,9 +47,9 @@
 }
 .user-profile {
   margin-right: 20px;
-  width: 50px;
+  width: 50px; 
   border-radius: 50%;
-  border: 1px solid #000;
+  border: 2px solid #fff;
 }
 
 .side-bar {
@@ -68,7 +68,6 @@
 .body {
   color: #000;
   margin-left: 220px;
-
 }
 
 .app-lists {
@@ -87,19 +86,20 @@
   display: flex;
   gap: 15px;
   align-items: center;
-  transition: background-color 0.2s linear; 
+  transition: background-color 0.2s linear;
   text-decoration: none;
   color: #fff;
 }
-.component svg,.component p{
+.component svg,
+.component p {
   pointer-events: none;
 }
 .component:hover {
   background-color: #74b9ff;
 }
 
-.component.active{
-background-color:rgba(0, 0, 0, 0.2);
+.component.active {
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .underline {

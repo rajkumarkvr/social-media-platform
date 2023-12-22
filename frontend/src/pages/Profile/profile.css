@@ -1,0 +1,66 @@
+.profile-container {
+  color: #fff;
+  width: 50vw;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  background-color: #3498db;
+  min-height: 400px;
+  padding: 10px;
+  padding-left: 30px;
+  gap: 15px;
+  user-select: none;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -5px -5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  position: relative;
+}
+.profile-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  align-items: center;
+}
+.followers-count-holder,
+.following-count-holder {
+  cursor: pointer;
+}
+
+.profile-pic-holder {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.username-holder {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  margin-left: 25px;
+}
+.username-holder a,
+.username-holder svg {
+  text-decoration: none;
+  color: white;
+}
+
+.profile-body-posts {
+  display: flex;
+  justify-content: space-around;
+}
+.profile-header img {
+  outline: 2px solid;
+  border-radius: 50%;
+}
+.profile-back-btn {
+  font-size: 1.5rem;
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  cursor: pointer;
+}
+.profile-back-btn:hover {
+  transition:opacity 0.2s linear;
+  opacity: 0.5;
+}

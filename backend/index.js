@@ -9,6 +9,7 @@ const registerRoute = require("./routes/register.route.js");
 const loginRoute=require("./routes/login.route.js");
 const dataRoute=require("./routes/data.route.js")
 const postRoute=require("./routes/post.route.js");
+const userRoute=require("./routes/user.route.js")
 const app = express();
 app.use(express.json())
 const STATIC=path.join(path.dirname(__dirname),"frontend","dist");
@@ -25,6 +26,7 @@ app.use("",registerRoute);
 app.use("",loginRoute);
 app.use("/api",dataRoute);
 app.use("/post",postRoute);
+app.use("/user",userRoute);
 
 
 //Server & database config

@@ -13,6 +13,8 @@ router.post("/new", async (req, res) => {
       content: content,
       postedBy: postedUserId,
     });
+    console.log()
+    await UserModel.findByIdAndUpdate({_id:postedUserId},{$push:{posts:response._id}});
     return res.status(201).json(response);
   } catch (error) {
     return res.json({ error: error.message });
@@ -29,6 +31,7 @@ router.put("/delete",async(req, res) => {
       { _id: currentUserId },
       { $pull: { likes: postId } }
     );
+    await UserModel.findByIdAndUpdate({_id:currentUserId},{$pull:{posts:postId}});
     await PostModel.findByIdAndDelete({ _id: postId });
     res.json({status:true});
   } catch (error) {

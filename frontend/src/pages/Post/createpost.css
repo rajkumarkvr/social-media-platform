@@ -1,20 +1,19 @@
 .post-wrapper {
-  width: 100%;
-  min-height: 50vh;
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
+  justify-content: center;
   align-items: center;
+  gap: 8px;
 }
 .post-conatiner {
+  padding: 10px;
   color: #7f8c8d;
   resize: none;
   border: none;
   outline: none;
-  max-width: 50vw;
+  min-width: 40vw;
   min-height: 200px;
   background-color: #fff;
-  padding: 15px;
   font-size: 18px;
   border-radius: 10px;
   border: 1px solid #3498db;
@@ -59,6 +58,7 @@
 }
 .text-header img {
   cursor: pointer;
+  margin-right: 10px;
 }
 .text-header img:hover {
   overflow: hidden;
@@ -80,6 +80,7 @@
 
 .meta-q {
   color: #34495e;
+  flex: 1;
 }
 .post-options button {
   border: 1px solid rgba(0, 0, 0, 0.5);

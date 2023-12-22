@@ -7,17 +7,26 @@ import RequiredAuth from "./components/RequiredAuth/RequiredAuth";
 import Settings from "./pages/Settings/Settings";
 import CreatePost from "./pages/Post/CreatePost";
 import Feeds from "./pages/Feeds/Feeds";
+import Profile from "./pages/Profile/Profile";
 const App = () => {
   return (
     <>
       <Routes>
-        <Route exact path="/"element={<RequiredAuth><Home /></RequiredAuth>
+        <Route
+          exact
+          path="/"
+          element={
+            <RequiredAuth>
+              <Home />
+            </RequiredAuth>
           }
         >
           <Route index path="/" element={<Feeds />}></Route>
+          <Route index path="/:id" element={<Feeds />}></Route>
           <Route path="chat" element={<h1>Chat</h1>}></Route>
           <Route path="post" element={<CreatePost />}></Route>
-          <Route path="profile" element={<h1>Profile</h1>}></Route>
+          <Route path="profile" element={<Profile />}></Route>
+        
           <Route path="notification" element={<h1>Notification</h1>}></Route>
           <Route path="settings" element={<Settings />}></Route>
         </Route>
