@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import "./feeds.css";
 import {v4} from "uuid";
-import { handleLike, handleComment, handlePostComment } from "./postOperations";
+import { handleLike, handleComment, handlePostComment,handleUpdateComment } from "./postOperations";
 import {
   faHeart,
   faComment,
@@ -25,6 +25,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import UserPicture from "../../components/UserPicture/UserPicture";
 import Button from "../../components/Button/Button";
 const Feeds = ({ userId }) => {
+  const [commented,setCommented]=useState(false);
   const [posts, setPosts] = useState([]);
   const [dropdownState, setDropdownState] = useState({});
   const [commentState, setCommentState] = useState({});
@@ -45,7 +46,7 @@ const Feeds = ({ userId }) => {
   function calculateTimeDifference(currentDate, previousDate) {
     const currentDateObj = new Date(currentDate);
     const previousDateObj = new Date(previousDate);
-
+    
     const difference = currentDateObj.getTime() - previousDateObj.getTime();
     const seconds = Math.floor(difference / 1000);
     const minutes = Math.floor(seconds / 60);
@@ -69,6 +70,22 @@ const Feeds = ({ userId }) => {
     }
   }
 
+
+
+ //triel
+// useEffect(()=>{
+//   const test=async ()=>{
+//     try {
+//       const response=await axiosInstance.post("/post/comments",{postId:"658e860975e9f2362589d0d0"});
+//       response.data&&setComments(response.data.reverse())
+//       // setCommented(prev=>!prev)
+//       console.log(response.data)
+//     } catch (error) {
+//       console.log(error.message)
+//     }
+//   }
+//   test()
+// },[commented])
   //To handle copy the text post
   const handleCopyPost = (texttoCopy) => {
     // console.log(texttoCopy)
@@ -123,8 +140,9 @@ const Feeds = ({ userId }) => {
         const response = await axiosInstance.get("/post");
         setPosts(response.data.response.reverse());
         setLoaded((prev) => !prev);
-        setLoading(false);
 
+        setLoading(false);
+        console.log(response.data.response)
         // console.log(response.data.response);
       } catch (error) {
         setLoading(false);
@@ -135,7 +153,7 @@ const Feeds = ({ userId }) => {
     fetchPosts();
 
     // setInterval(fetchPosts,10000);
-  }, [liked, postDeleted]);
+  }, [liked, postDeleted,commented]);
 
   const handleDropDown = (postId) => {
     setDropdownState((prevState) => ({
@@ -160,7 +178,7 @@ const Feeds = ({ userId }) => {
     return (
         <div className="feed-wrapper">
           {posts &&
-            posts.length > 0 &&
+            posts.length > 0 ?
             posts.map((post) => {
               const isLikedByYou = checkIslikedByYou(post);
               return (
@@ -217,10 +235,11 @@ const Feeds = ({ userId }) => {
                                 setCommentState,
                                 setComments
                               );
+                              
                             }}
                             icon={faComment}
                           />
-                          <div>20</div>
+                          <div>{post.commentCount}</div>
                         </div>
                         <div className="fooder-items">
                           <Icon icon={faRetweet} />
@@ -290,29 +309,42 @@ const Feeds = ({ userId }) => {
                           <Icon
                             visibility={false}
                             icon={faPaperPlane}
-                            onClick={() => {
+                            onClick={async() => {
                               comment &&
-                                handlePostComment(
+                                 handlePostComment(
                                   post._id,
                                   comment,
-                                  currentUser.id
+                                  currentUser.id,
+                            
+
                                 );
+                                setCommented(prev=>!prev)
+                                handleUpdateComment(post._id)
                             }}
                           />
                         </div>
                       </div>
+                      {comments.length==0&&<div className="no-comments-alert">No comments Yet.</div>}
                       <div className="comment-body">
+                         
                         {comments.map((comment)=>{
                           console.log(comment)
+                          
                         return comment.postId&&post._id&&<div key={comment._id}>
                                  <div className="comment-inner-header">
                                     <div className="commentedby-profile">
-                                     <div> <img src={comment.commentedBy.userProfile} width="50px"  alt="" /></div>
+                                     <div className="comment-img"> <img className="commented-profile-pic" src={comment.commentedBy.userProfile} width="30px"  alt="" /></div>
                                       <div>{comment.commentedBy.username}</div>
                                     </div>
-                                    <div>{calculateTimeDifference(new Date(),comment.createdAt)}</div>
+                                    <div className="commented-time">{calculateTimeDifference(new Date(),comment.createdAt)}</div>
                                     <Icon icon={faEllipsisVertical}/>
                                  </div>
+                              <div>
+                              <div className="comment-contents">
+                                  {comment.commentContent}
+                                 </div>
+                                 <div className="comment-reply-btn">Reply</div>
+                              </div>
                               </div>
                         })}
                       </div>
@@ -320,7 +352,7 @@ const Feeds = ({ userId }) => {
                   )}
                 </div>
               );
-            })}
+            }):<h1 className="no-post-info">Oops!No posts.</h1>}
 
           {err && (
             <>

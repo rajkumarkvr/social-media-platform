@@ -50,6 +50,7 @@ router.get("/", async (req, res) => {
       {},
       {
         likeCount: { $size: "$likes" },
+        commentCount:{$size:"$comments"},
         content: 1,
         createdAt: 1,
         updatedAt: 1,
@@ -61,6 +62,19 @@ router.get("/", async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+//Get comment count for single post
+router.post("/ccount", async (req, res) => {
+  try {
+    // const postId=req.body.postid;
+    const response = await PostModel.find({},{commentCount:{$size:"$comments"}})
+    const c=response.commentCount
+    return res.json({count:c});
+  } catch (error) {
+    res.sendStatus(500);
+  }
+});
+
 
 router.put("/like", async (req, res) => {
   try {
