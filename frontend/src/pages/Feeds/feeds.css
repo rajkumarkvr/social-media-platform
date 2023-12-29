@@ -204,7 +204,7 @@
   opacity: 0.6;
 }
 .comment-section-container {
-  width: 45vw;
+  width: 40vw;
   height: 200px;
   border-radius: 5px;
   background-color: #dfe6e9;
@@ -266,4 +266,15 @@
 }
 .comment-input input{
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.blur-comment-btn.comment-btn{
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.post-wrapper{
+  display: flex;
 }

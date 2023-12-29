@@ -14,7 +14,7 @@ import "./home.css";
 import { NavLink } from "react-router-dom";
 import Icon from "../../components/Icon/Icon";
 import ConfirmModel from "../../components/ConfirmModel/ConfirmModel";
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4, v4 } from "uuid";
 const Home = () => {
   const { currentUser } = useProfile();
 

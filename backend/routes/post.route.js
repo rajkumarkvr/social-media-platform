@@ -3,7 +3,7 @@ const router = express.Router();
 
 const UserModel = require("../models/user.model.js");
 const PostModel = require("../models/post.model.js");
-
+const CommentModel = require("../models/comment.model.js");
 //Create single post
 router.post("/new", async (req, res) => {
   const content = req.body.content;
@@ -13,27 +13,31 @@ router.post("/new", async (req, res) => {
       content: content,
       postedBy: postedUserId,
     });
-    console.log()
-    await UserModel.findByIdAndUpdate({_id:postedUserId},{$push:{posts:response._id}});
+    console.log();
+    await UserModel.findByIdAndUpdate(
+      { _id: postedUserId },
+      { $push: { posts: response._id } }
+    );
     return res.status(201).json(response);
   } catch (error) {
     return res.json({ error: error.message });
   }
 });
 
-
-router.put("/delete",async(req, res) => {
+router.put("/delete", async (req, res) => {
   try {
-  
-    const postId=req.body.postId;
-    const currentUserId=req.body.currentUserId;
+    const postId = req.body.postId;
+    const currentUserId = req.body.currentUserId;
     await UserModel.updateOne(
       { _id: currentUserId },
       { $pull: { likes: postId } }
     );
-    await UserModel.findByIdAndUpdate({_id:currentUserId},{$pull:{posts:postId}});
+    await UserModel.findByIdAndUpdate(
+      { _id: currentUserId },
+      { $pull: { posts: postId } }
+    );
     await PostModel.findByIdAndDelete({ _id: postId });
-    res.json({status:true});
+    res.json({ status: true });
   } catch (error) {
     console.log(error.message);
     res.sendStatus(500);
@@ -94,9 +98,35 @@ router.put("/like", async (req, res) => {
     res.sendStatus(500);
   }
 });
-//Store post comment 
-router.post("/comment",(req,res)=>{
-  res.send("Success")
+//Store post comment
+router.post("/comment", async (req, res) => {
+  try {
+    const postId = req.body.postId;
+    const comment = req.body.comment;
+    const userId = req.body.userId;
+    // console.log(postId,comment,userId)
+    const response = await CommentModel.create({
+      commentContent: comment,
+      commentedBy: userId,
+      postId: postId,
+    });
+    await PostModel.findByIdAndUpdate(postId, {
+      $push: { comments: response._id },
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+//Get all comments for a single post
+router.post("/comments", async (req, res) => {
+  try {
+    const postId = req.body.postId;
+    // console.log(postId)
+    const response=await CommentModel.find({postId:postId}).populate("commentedBy")
+    res.json(response)
+   
+  } catch (error) {}
 });
 
 module.exports = router;

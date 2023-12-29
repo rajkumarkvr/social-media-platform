@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import "./feeds.css";
-import { handleLike, handleComment,handlePostComment } from "./postOperations";
+import {v4} from "uuid";
+import { handleLike, handleComment, handlePostComment } from "./postOperations";
 import {
   faHeart,
   faComment,
@@ -11,8 +12,8 @@ import {
   faTrash,
   faCopy,
   faWarning,
-  faPaperPlane
-
+  faPaperPlane,
+  faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons";
 import axiosInstance from "../../axiosInstance";
 import Icon from "../../components/Icon/Icon";
@@ -26,7 +27,7 @@ import Button from "../../components/Button/Button";
 const Feeds = ({ userId }) => {
   const [posts, setPosts] = useState([]);
   const [dropdownState, setDropdownState] = useState({});
-  const [commentState,setCommentState] = useState({});
+  const [commentState, setCommentState] = useState({});
   const { currentUser } = useProfile();
   const [err, setError] = useState(false);
   const [errMsg, setErrMsg] = useState("");
@@ -35,8 +36,8 @@ const Feeds = ({ userId }) => {
   const [postDeleted, setPostDeleted] = useState(true);
   const [isCopied, setIsCopied] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [comment,setComment]=useState();
-
+  const [comment, setComment] = useState();
+  const [comments, setComments] = useState([]);
 
   const { id } = useParams();
   const dropRef = useRef();
@@ -120,7 +121,7 @@ const Feeds = ({ userId }) => {
     const fetchPosts = async () => {
       try {
         const response = await axiosInstance.get("/post");
-        setPosts(response.data.response);
+        setPosts(response.data.response.reverse());
         setLoaded((prev) => !prev);
         setLoading(false);
 
@@ -138,7 +139,6 @@ const Feeds = ({ userId }) => {
 
   const handleDropDown = (postId) => {
     setDropdownState((prevState) => ({
-      ...prevState,
       [postId]: !prevState[postId],
     }));
   };
@@ -158,13 +158,13 @@ const Feeds = ({ userId }) => {
     );
   } else {
     return (
-      <>
         <div className="feed-wrapper">
-          {posts != [] &&
+          {posts &&
+            posts.length > 0 &&
             posts.map((post) => {
               const isLikedByYou = checkIslikedByYou(post);
               return (
-                <>
+                <div className="post-wrapper" key={post._id}>
                   <div id={post._id} className="feed-container" key={post._id}>
                     <div className="feed-profile-header">
                       <div className="feed-user-icon">
@@ -210,7 +210,16 @@ const Feeds = ({ userId }) => {
                           <div>{post.likeCount}</div>
                         </div>
                         <div className="fooder-items">
-                          <Icon onClick={()=>{handleComment(post._id,setCommentState)}} icon={faComment} />
+                          <Icon
+                            onClick={() => {
+                              handleComment(
+                                post._id,
+                                setCommentState,
+                                setComments
+                              );
+                            }}
+                            icon={faComment}
+                          />
                           <div>20</div>
                         </div>
                         <div className="fooder-items">
@@ -259,21 +268,57 @@ const Feeds = ({ userId }) => {
                       </div>
                     )}
                   </div>
-                  {commentState[post._id]&&( <div className="comment-section-container">
-                    <div className="comment-header">
-                            <div className="comment-user-profile">
-                              <UserPicture />
-                            </div>
-                            <div className="comment-input"><input onChange={(e)=>setComment(e.target.value)} placeholder="Comment here..." className="comment-input" type="text" /></div>
-                            <div className="comment-btn"><Icon visibility={false} icon={faPaperPlane} onClick={()=>{handlePostComment(post._id,comment,currentUser.id)}} /></div>
+                  {commentState[post._id] && (
+                    <div className="comment-section-container">
+                      <div className="comment-header">
+                        <div className="comment-user-profile">
+                          <UserPicture />
+                        </div>
+                        <div className="comment-input">
+                          <input
+                            onChange={(e) => setComment(e.target.value)}
+                            placeholder="Type Comment here..."
+                            className="comment-input"
+                            type="text"
+                          />
+                        </div>
+                        <div
+                          className={`comment-btn ${
+                            !comment && "blur-comment-btn"
+                          }`}
+                        >
+                          <Icon
+                            visibility={false}
+                            icon={faPaperPlane}
+                            onClick={() => {
+                              comment &&
+                                handlePostComment(
+                                  post._id,
+                                  comment,
+                                  currentUser.id
+                                );
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="comment-body">
+                        {comments.map((comment)=>{
+                          console.log(comment)
+                        return comment.postId&&post._id&&<div key={comment._id}>
+                                 <div className="comment-inner-header">
+                                    <div className="commentedby-profile">
+                                     <div> <img src={comment.commentedBy.userProfile} width="50px"  alt="" /></div>
+                                      <div>{comment.commentedBy.username}</div>
+                                    </div>
+                                    <div>{calculateTimeDifference(new Date(),comment.createdAt)}</div>
+                                    <Icon icon={faEllipsisVertical}/>
+                                 </div>
+                              </div>
+                        })}
+                      </div>
                     </div>
-                    <div className="comment-body">
-                      <div>Super</div>
-                      <div>Super</div>
-                    </div>
-                  </div>)}
-                 
-                </>
+                  )}
+                </div>
               );
             })}
 
@@ -301,7 +346,6 @@ const Feeds = ({ userId }) => {
             </Alert>
           )}
         </div>
-      </>
     );
   }
 };
