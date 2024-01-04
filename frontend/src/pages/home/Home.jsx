@@ -22,7 +22,7 @@ const Home = () => {
     <div className="home-container">
       <div className="navbar">
         <p className="company-logo">
-          <NavLink to="/">Social Media Platform</NavLink>
+          <NavLink className="org-logo" to="/">Social Media Platform</NavLink>
         </p>
         <div className="profile-info">
           <Link to="/profile"><img

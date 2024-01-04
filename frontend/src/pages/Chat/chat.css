@@ -1,0 +1,71 @@
+.chat-outer-container {
+  margin: 0 auto;
+  width: 45vw;
+  background-color: #dfe6e9;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1), -3px -3px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+.chat-inner-container {
+  padding: 10px;
+  padding-top: 2rem;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  overflow: scroll;
+}
+.chat-header {
+  margin: 0 auto;
+  position: relative;
+}
+.search-chat-profiles {
+  border: none;
+  outline: none;
+  padding: 8px 15px;
+  border-radius: 25px;
+  color: #636e72;
+  border: 1px solid #fd79a8;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.chat-search-icon {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  cursor: pointer;
+  color: #fd79a8;
+  z-index: 1;
+}
+.chat-search-icon:hover {
+  opacity: 0.5;
+}
+
+.chat-profiles {
+  width: 50%;
+  background-color: #fff;
+  margin: 0 auto;
+  min-height: 80%;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1), -3px -3px 5px rgba(0, 0, 0, 0.1);
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.chat-profile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px;
+  background-color: #fd79a8;
+  border-radius: 25px;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1), -3px -3px 5px rgba(0, 0, 0, 0.1);
+  
+}
+
+.chat-profile:hover {
+  opacity: 0.8;
+}
