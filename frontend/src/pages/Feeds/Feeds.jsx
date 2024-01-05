@@ -32,9 +32,11 @@ import Button from "../../components/Button/Button";
 import Comment from "./Comment";
 import FeedAlerts from "./FeedAlerts";
 import PostDropOp from "./PostDropOp";
+import SharePost from "./SharePost/SharePost";
+import Loader from "../../components/Loader/Loader";
 const Feeds = ({ userId }) => {
   const [commentCount,setCommentCount]=useState();
-  const [commented, setCommented] = useState(false);
+  const [commented, setCommented] = useState({});
   const [posts, setPosts] = useState([]);
   const [dropdownState, setDropdownState] = useState({});
   const [commentState, setCommentState] = useState({});
@@ -50,7 +52,7 @@ const Feeds = ({ userId }) => {
   const [comments, setComments] = useState([]);
   const { id } = useParams();
   const dropRef = useRef();
-
+  const [showShare,setShowShare]=useState(false);
   function calculateTimeDifference(currentDate, previousDate) {
     const currentDateObj = new Date(currentDate);
     const previousDateObj = new Date(previousDate);
@@ -86,6 +88,12 @@ const Feeds = ({ userId }) => {
      
       re()
     },[])
+
+    //handleShowShare
+
+    const handleShowShare=(postId)=>{
+      setShowShare((prevState)=>({[postId]: !prevState[postId]}))
+    }
   //triel
   // useEffect(()=>{
   //   const test=async ()=>{
@@ -101,7 +109,7 @@ const Feeds = ({ userId }) => {
   //   test()
   // },[commented])
   //To handle copy the text post
-  const handleCopyPost = (texttoCopy) => {
+const handleCopyPost = (texttoCopy) => {
     // console.log(texttoCopy)
 
     if (navigator) {
@@ -179,6 +187,9 @@ const Feeds = ({ userId }) => {
     return isLike;
   };
 
+  if(loading){
+    return <Loader />
+  }
   if (id) {
     return (
       <>
@@ -257,10 +268,10 @@ const Feeds = ({ userId }) => {
                         <div>5</div>
                       </div>
                       <div className="fooder-items">
-                        <Icon icon={faShare} />
-
+                        <Icon icon={faShare} onClick={()=>{handleShowShare(post._id)}}/>
                         <div>20</div>
                       </div>
+                 
                     </div>
                     <div className="post-save-btn">
                       <Icon className="light" icon={faBookmark} />
@@ -271,6 +282,7 @@ const Feeds = ({ userId }) => {
                  dropRef={dropRef}
                  />
                 
+                {showShare[post._id]&&<SharePost postId={post._id} setShowShare={setShowShare} />}
                 </div>
                
                 {/* Comment section */}
