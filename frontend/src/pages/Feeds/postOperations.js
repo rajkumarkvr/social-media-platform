@@ -40,13 +40,13 @@ export const handlePostComment=async (postId,comment,userId)=>{
 
 //Handle update comment
 
-export const handleUpdateComment=async(postId)=>{
-  console.log(postId)
+export const handleUpdateComment=async()=>{
+
   try {
-    const response = await axiosInstance.post("post/ccount", {
-      postid: postId,
-    });
-    console.log(response.data);
-    // return response.data.commentCount;
-  } catch (error) {}
+    const response = await axiosInstance.post("post/ccount");
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    console.log(error.message)
+  }
 }

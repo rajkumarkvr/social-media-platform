@@ -68,8 +68,8 @@ router.post("/ccount", async (req, res) => {
   try {
     // const postId=req.body.postid;
     const response = await PostModel.find({},{commentCount:{$size:"$comments"}})
-    const c=response.commentCount
-    return res.json({count:c});
+ 
+    return res.json(response);
   } catch (error) {
     res.sendStatus(500);
   }

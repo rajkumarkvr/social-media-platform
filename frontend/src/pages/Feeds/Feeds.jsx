@@ -1,7 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import "./feeds.css";
-import {v4} from "uuid";
-import { handleLike, handleComment, handlePostComment,handleUpdateComment } from "./postOperations";
+import { v4 } from "uuid";
+import {
+  handleLike,
+  handleComment,
+  handlePostComment,
+  handleUpdateComment,
+} from "./postOperations";
 import {
   faHeart,
   faComment,
@@ -24,8 +29,12 @@ import Profile from "../Profile/Profile";
 import Spinner from "../../components/Spinner/Spinner";
 import UserPicture from "../../components/UserPicture/UserPicture";
 import Button from "../../components/Button/Button";
+import Comment from "./Comment";
+import FeedAlerts from "./FeedAlerts";
+import PostDropOp from "./PostDropOp";
 const Feeds = ({ userId }) => {
-  const [commented,setCommented]=useState(false);
+  const [commentCount,setCommentCount]=useState();
+  const [commented, setCommented] = useState(false);
   const [posts, setPosts] = useState([]);
   const [dropdownState, setDropdownState] = useState({});
   const [commentState, setCommentState] = useState({});
@@ -39,14 +48,13 @@ const Feeds = ({ userId }) => {
   const [loading, setLoading] = useState(true);
   const [comment, setComment] = useState();
   const [comments, setComments] = useState([]);
-
   const { id } = useParams();
   const dropRef = useRef();
 
   function calculateTimeDifference(currentDate, previousDate) {
     const currentDateObj = new Date(currentDate);
     const previousDateObj = new Date(previousDate);
-    
+
     const difference = currentDateObj.getTime() - previousDateObj.getTime();
     const seconds = Math.floor(difference / 1000);
     const minutes = Math.floor(seconds / 60);
@@ -70,22 +78,28 @@ const Feeds = ({ userId }) => {
     }
   }
 
-
-
- //triel
-// useEffect(()=>{
-//   const test=async ()=>{
-//     try {
-//       const response=await axiosInstance.post("/post/comments",{postId:"658e860975e9f2362589d0d0"});
-//       response.data&&setComments(response.data.reverse())
-//       // setCommented(prev=>!prev)
-//       console.log(response.data)
-//     } catch (error) {
-//       console.log(error.message)
-//     }
-//   }
-//   test()
-// },[commented])
+    useEffect(()=>{
+      const re=async()=>{
+         const res= await handleUpdateComment();
+         setCommentCount(res);
+      }
+     
+      re()
+    },[])
+  //triel
+  // useEffect(()=>{
+  //   const test=async ()=>{
+  //     try {
+  //       const response=await axiosInstance.post("/post/comments",{postId:"658e860975e9f2362589d0d0"});
+  //       response.data&&setComments(response.data.reverse())
+  //       // setCommented(prev=>!prev)
+  //       console.log(response.data)
+  //     } catch (error) {
+  //       console.log(error.message)
+  //     }
+  //   }
+  //   test()
+  // },[commented])
   //To handle copy the text post
   const handleCopyPost = (texttoCopy) => {
     // console.log(texttoCopy)
@@ -142,7 +156,7 @@ const Feeds = ({ userId }) => {
         setLoaded((prev) => !prev);
 
         setLoading(false);
-        console.log(response.data.response)
+        console.log(response.data.response);
         // console.log(response.data.response);
       } catch (error) {
         setLoading(false);
@@ -153,7 +167,7 @@ const Feeds = ({ userId }) => {
     fetchPosts();
 
     // setInterval(fetchPosts,10000);
-  }, [liked, postDeleted,commented]);
+  }, [liked, postDeleted,comments]);
 
   const handleDropDown = (postId) => {
     setDropdownState((prevState) => ({
@@ -164,9 +178,6 @@ const Feeds = ({ userId }) => {
     const isLike = post.likes.includes(currentUser.id);
     return isLike;
   };
-  // if(loading){
-  //   return <Spinner />
-  // }
 
   if (id) {
     return (
@@ -176,208 +187,103 @@ const Feeds = ({ userId }) => {
     );
   } else {
     return (
-        <div className="feed-wrapper">
-          {posts &&
-            posts.length > 0 ?
-            posts.map((post) => {
-              const isLikedByYou = checkIslikedByYou(post);
-              return (
-                <div className="post-wrapper" key={post._id}>
-                  <div id={post._id} className="feed-container" key={post._id}>
-                    <div className="feed-profile-header">
-                      <div className="feed-user-icon">
-                        <img
-                          width="50px"
-                          src={post.postedBy.userProfile}
-                          alt="user"
-                        />
-                      </div>
-                      <div className="feed-username">
-                        {`${post.postedBy.name} `}
-                        {
-                          <Link
-                            id={post.postedBy._id}
-                            to={`/${post.postedBy._id}`}
-                            className="user-nickname"
-                          >{`@${post.postedBy.username}`}</Link>
-                        }
-                      </div>
-                      <div className="feed-posted-time">
-                        {calculateTimeDifference(new Date(), post.createdAt)}
-                      </div>
-                      <Icon
-                        className="vertical-icon"
-                        id={post.postedBy.id}
-                        icon={faEllipsisV}
-                        onClick={() => handleDropDown(post._id)}
+      <div className="feed-wrapper">
+        {/* Single post */}
+        {posts.length != 0 && posts.length != 0 ? (
+          posts.map((post) => {
+            const isLikedByYou = checkIslikedByYou(post);
+            return (
+              <div className="post-wrapper" key={post._id}>
+                <div id={post._id} className="feed-container" key={post._id}>
+                  <div className="feed-profile-header">
+                    <div className="feed-user-icon">
+                      <img
+                        width="50px"
+                        src={post.postedBy.userProfile}
+                        alt="user"
                       />
                     </div>
-                    <div className="feed-body-content">{post.content}</div>
-                    <div className="feed-fooder">
-                      <div className="feed-fooder-icons">
-                        <div className="fooder-items">
-                          <Icon
-                            className={
-                              isLikedByYou ? "color-like" : "uncolor-like"
-                            }
-                            icon={faHeart}
-                            onClick={() => {
-                              handleLike(post._id, currentUser.id, setLiked);
-                            }}
-                          />
-                          <div>{post.likeCount}</div>
-                        </div>
-                        <div className="fooder-items">
-                          <Icon
-                            onClick={() => {
-                              handleComment(
-                                post._id,
-                                setCommentState,
-                                setComments
-                              );
-                              
-                            }}
-                            icon={faComment}
-                          />
-                          <div>{post.commentCount}</div>
-                        </div>
-                        <div className="fooder-items">
-                          <Icon icon={faRetweet} />
-
-                          <div>5</div>
-                        </div>
-                        <div className="fooder-items">
-                          <Icon icon={faShare} />
-
-                          <div>20</div>
-                        </div>
-                      </div>
-                      <div className="post-save-btn">
-                        <Icon className="light" icon={faBookmark} />
-                      </div>
+                    <div className="feed-username">
+                      {`${post.postedBy.name} `}
+                      {
+                        <Link
+                          id={post.postedBy._id}
+                          to={`/${post.postedBy._id}`}
+                          className="user-nickname"
+                        >{`@${post.postedBy.username}`}</Link>
+                      }
                     </div>
-                    {dropdownState[post._id] && (
-                      <div
-                        ref={dropRef}
-                        className={`feed-drop-down`}
-                        id={`dropdown-${post._id}`}
-                      >
-                        <ul>
-                          {post.postedBy._id == currentUser.id && (
-                            <li
-                              onClick={() => {
-                                handleDeletePost(post._id, currentUser.id);
-                              }}
-                              className="delete-post"
-                            >
-                              <Icon icon={faTrash} />
-                              <label>Delete</label>
-                            </li>
-                          )}
-                          <li
-                            onClick={() => {
-                              handleCopyPost(post.content);
-                            }}
-                            className="copy-post"
-                          >
-                            <Icon icon={faCopy} />
-                            <label>Copy</label>
-                          </li>
-                        </ul>
-                      </div>
-                    )}
+                    <div className="feed-posted-time">
+                      {calculateTimeDifference(new Date(), post.createdAt)}
+                    </div>
+                    <Icon
+                      className="vertical-icon"
+                      id={post.postedBy.id}
+                      icon={faEllipsisV}
+                      onClick={() => handleDropDown(post._id)}
+                    />
                   </div>
-                  {commentState[post._id] && (
-                    <div className="comment-section-container">
-                      <div className="comment-header">
-                        <div className="comment-user-profile">
-                          <UserPicture />
-                        </div>
-                        <div className="comment-input">
-                          <input
-                            onChange={(e) => setComment(e.target.value)}
-                            placeholder="Type Comment here..."
-                            className="comment-input"
-                            type="text"
-                          />
-                        </div>
-                        <div
-                          className={`comment-btn ${
-                            !comment && "blur-comment-btn"
-                          }`}
-                        >
-                          <Icon
-                            visibility={false}
-                            icon={faPaperPlane}
-                            onClick={async() => {
-                              comment &&
-                                 handlePostComment(
-                                  post._id,
-                                  comment,
-                                  currentUser.id,
-                            
-
-                                );
-                                setCommented(prev=>!prev)
-                                handleUpdateComment(post._id)
-                            }}
-                          />
-                        </div>
+                  <div className="feed-body-content">{post.content}</div>
+                  <div className="feed-fooder">
+                    <div className="feed-fooder-icons">
+                      <div className="fooder-items">
+                        <Icon
+                          className={
+                            isLikedByYou ? "color-like" : "uncolor-like"
+                          }
+                          icon={faHeart}
+                          onClick={() => {
+                            handleLike(post._id, currentUser.id, setLiked);
+                          }}
+                        />
+                        <div>{post.likeCount}</div>
                       </div>
-                      {comments.length==0&&<div className="no-comments-alert">No comments Yet.</div>}
-                      <div className="comment-body">
-                         
-                        {comments.map((comment)=>{
-                          console.log(comment)
-                          
-                        return comment.postId&&post._id&&<div key={comment._id}>
-                                 <div className="comment-inner-header">
-                                    <div className="commentedby-profile">
-                                     <div className="comment-img"> <img className="commented-profile-pic" src={comment.commentedBy.userProfile} width="30px"  alt="" /></div>
-                                      <div>{comment.commentedBy.username}</div>
-                                    </div>
-                                    <div className="commented-time">{calculateTimeDifference(new Date(),comment.createdAt)}</div>
-                                    <Icon icon={faEllipsisVertical}/>
-                                 </div>
-                              <div>
-                              <div className="comment-contents">
-                                  {comment.commentContent}
-                                 </div>
-                                 <div className="comment-reply-btn">Reply</div>
-                              </div>
-                              </div>
-                        })}
+                      <div className="fooder-items">
+                        <Icon
+                          onClick={() => {
+                            handleComment(
+                              post._id,
+                              setCommentState,
+                              setComments
+                            );
+                          }}
+                          icon={faComment}
+                        />
+                        {<div>{post.commentCount}</div>}
+                      </div>
+                      <div className="fooder-items">
+                        <Icon icon={faRetweet} />
+
+                        <div>5</div>
+                      </div>
+                      <div className="fooder-items">
+                        <Icon icon={faShare} />
+
+                        <div>20</div>
                       </div>
                     </div>
-                  )}
+                    <div className="post-save-btn">
+                      <Icon className="light" icon={faBookmark} />
+                    </div>
+                  </div>
+                  {/* Post operations-dropdown */}
+                  <PostDropOp currentUser={currentUser} dropdownState={dropdownState} handleCopyPost={handleCopyPost} handleDeletePost={handleDeletePost} post={post}
+                 dropRef={dropRef}
+                 />
+                
                 </div>
-              );
-            }):<h1 className="no-post-info">Oops!No posts.</h1>}
-
-          {err && (
-            <>
-              {" "}
-              <Alert className="err-alert" varient="danger">
-                <Icon icon={faWarning} />
-                Error occured {errMsg}.Please check your connection
-              </Alert>
-              <button
-                className="err-alert-btn"
-                onClick={() => {
-                  window.location.reload();
-                }}
-              >
-                Try Again
-              </button>
-            </>
-          )}
-
-          {isCopied && (
-            <Alert className="copied-alert" varient="success">
-              Post Copied Successfully.
-            </Alert>
-          )}
-        </div>
+               
+                {/* Comment section */}
+               <Comment calculateTimeDifference={calculateTimeDifference} comment={comment} commentState={commentState} handlePostComment={handlePostComment} post={post} setComment={setComment} comments={comments} currentUser={currentUser}/>
+              </div>
+            );
+          })
+        ) : (
+          <h1 className="no-post-info">Oops!No posts.</h1>
+        )}
+      {/* For alert to user */}
+          <FeedAlerts err={err} errMsg={errMsg} isCopied={isCopied}/>
+      </div>
     );
   }
 };
